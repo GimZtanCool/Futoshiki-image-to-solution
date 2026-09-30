@@ -1,0 +1,7 @@
+opencv-python>=4.9
+numpy>=1.26
+ortools>=9.10
+pytesseract>=0.3.10
+Pillow>=10.0
+streamlit>=1.35
+pytest>=8.0

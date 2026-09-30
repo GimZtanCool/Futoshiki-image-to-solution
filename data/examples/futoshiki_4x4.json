@@ -1,0 +1,17 @@
+{
+  "size": 4,
+  "givens": [
+    {"row": 0, "col": 0, "value": 1}, {"row": 0, "col": 3, "value": 4},
+    {"row": 1, "col": 1, "value": 3}, {"row": 2, "col": 2, "value": 1},
+    {"row": 3, "col": 0, "value": 4}, {"row": 3, "col": 3, "value": 3}
+  ],
+  "inequalities": [
+    {"first": {"row": 0, "col": 0}, "relation": "<", "second": {"row": 0, "col": 1}},
+    {"first": {"row": 0, "col": 1}, "relation": "<", "second": {"row": 0, "col": 2}},
+    {"first": {"row": 1, "col": 0}, "relation": "<", "second": {"row": 1, "col": 1}},
+    {"first": {"row": 2, "col": 1}, "relation": ">", "second": {"row": 2, "col": 2}},
+    {"first": {"row": 3, "col": 1}, "relation": "<", "second": {"row": 3, "col": 2}},
+    {"first": {"row": 0, "col": 0}, "relation": "<", "second": {"row": 1, "col": 0}},
+    {"first": {"row": 1, "col": 2}, "relation": ">", "second": {"row": 2, "col": 2}}
+  ]
+}
