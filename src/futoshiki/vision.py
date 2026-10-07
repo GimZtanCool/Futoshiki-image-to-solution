@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import os
+from pathlib import Path
+import shutil
 from typing import Any
 
 import cv2
@@ -72,16 +75,68 @@ def _infer_size(warped: np.ndarray) -> int:
     return max(scores, key=scores.get)
 
 
+def _find_tesseract(configured_command: str = "tesseract") -> str | None:
+    """Find the OCR engine without requiring Windows installers to update PATH."""
+    override = os.environ.get("TESSERACT_CMD")
+    if override:
+        return override
+    command = shutil.which(configured_command)
+    if command:
+        return command
+    if Path(configured_command).is_file():
+        return configured_command
+    if os.name == "nt":
+        import winreg
+
+        for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+            try:
+                with winreg.OpenKey(hive, r"SOFTWARE\Tesseract-OCR") as key:
+                    for value_name in ("InstallDir", "Path"):
+                        try:
+                            directory, _ = winreg.QueryValueEx(key, value_name)
+                        except OSError:
+                            continue
+                        executable = Path(directory) / "tesseract.exe"
+                        if executable.is_file():
+                            return str(executable)
+            except OSError:
+                continue
+        for variable in ("ProgramFiles", "LOCALAPPDATA"):
+            directory = os.environ.get(variable)
+            if directory:
+                relative = "Tesseract-OCR" if variable == "ProgramFiles" else "Programs/Tesseract-OCR"
+                executable = Path(directory) / relative / "tesseract.exe"
+                if executable.is_file():
+                    return str(executable)
+    return None
+
+
 def _ocr_digit(cell: np.ndarray, size: int) -> tuple[int | None, float]:
     try:
         import pytesseract
-    except ImportError:
-        return None, 0.0
+    except ImportError as error:
+        raise ExtractionError("The Python OCR wrapper is missing. Install requirements.txt with pip.") from error
+    command = _find_tesseract(pytesseract.pytesseract.tesseract_cmd)
+    if command:
+        pytesseract.pytesseract.tesseract_cmd = command
     gray = cv2.cvtColor(cell, cv2.COLOR_BGR2GRAY)
     gray = cv2.resize(gray, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
     thresholded = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 8)
     config = f"--psm 10 -c tessedit_char_whitelist={''.join(str(n) for n in range(1, size + 1))}"
-    info = pytesseract.image_to_data(thresholded, config=config, output_type=pytesseract.Output.DICT)
+    try:
+        info = pytesseract.image_to_data(thresholded, config=config, output_type=pytesseract.Output.DICT)
+    except pytesseract.TesseractNotFoundError as error:
+        raise ExtractionError(
+            "Tesseract OCR was not found. On Windows, install it with "
+            "'winget install --id UB-Mannheim.TesseractOCR --exact --source winget', "
+            "then restart the app. For a custom installation, set TESSERACT_CMD "
+            "to the full path of tesseract.exe. See the README installation section."
+        ) from error
+    except pytesseract.TesseractError as error:
+        raise ExtractionError(
+            f"Tesseract OCR could not read the image: {error}. "
+            "Check that English (eng) language data is installed and TESSDATA_PREFIX, if set, is correct."
+        ) from error
     for text, confidence in zip(info["text"], info["conf"]):
         try:
             value = int(text.strip())

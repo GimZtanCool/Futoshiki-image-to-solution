@@ -41,6 +41,15 @@ tesseract --version
 
 If you chose another installation directory, use that path instead.
 
+The app also detects Tesseract installations registered by Windows installers and checks common installation folders. For a custom path, you can explicitly configure the executable without editing Python files:
+
+```powershell
+$env:TESSERACT_CMD = 'C:\path\to\Tesseract-OCR\tesseract.exe'
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Use the full executable path, including `tesseract.exe`. Stop an already-running Streamlit process with Ctrl+C before relaunching with changed environment variables. Installing another Python package named `tesseract` does not replace the separate OCR engine required by `pytesseract`.
+
 Launch the app with the same virtual environment:
 
 ```powershell
