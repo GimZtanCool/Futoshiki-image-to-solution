@@ -17,11 +17,15 @@ Este directorio contiene **10 imágenes y 10 JSON esperados** del mismo nombre. 
 
 ## Procedencia y alcance
 
-Son tableros sintéticos generados para la demostración y adaptados al extractor actual. Las variaciones de iluminación y perspectiva son simulaciones, no fotografías reales. Todos los tableros tienen una solución única.
+Son imágenes de tableros sintéticos generadas para la demostración y adaptadas al extractor actual. Las variaciones de iluminación y perspectiva son simuladas. Todos los tableros tienen una solución única.
 
-El conjunto cubre el mínimo de 10 imágenes y varias condiciones de entrada. **Todavía faltan fotografías reales de versiones impresas** para cubrir esa parte de la indicación académica. Se pueden imprimir estos tableros, fotografiarlos con diferentes luces y ángulos y agregar las capturas con su JSON correspondiente. Esas nuevas capturas deben evaluarse por separado antes de afirmar robustez con fotos reales.
+El conjunto contiene 10 archivos de imagen para probar el reconocimiento de la cuadrícula, los dígitos y los signos bajo varias condiciones de entrada. Cada PNG/JPG pasa por el OCR y el extractor al cargarse en el programa.
 
-La lista de capturas que faltan, los tableros para imprimir y los JSON correspondientes están en [FOTOGRAFIAS_PENDIENTES.md](FOTOGRAFIAS_PENDIENTES.md).
+## Demostración en la aplicación
+
+Inicia `streamlit run app.py` y usa **Puzzle image** para cargar `01_4x4_digital.png`. Después puedes cargar `08_5x5_digital.png` y `09_4x4_perspectiva.png` para mostrar el cambio de tamaño y la rectificación de perspectiva. La aplicación extrae automáticamente los datos desde los píxeles y muestra el JSON reconocido, el resultado del solver y la solución superpuesta.
+
+Los JSON de este directorio son las referencias esperadas para el evaluador. Para demostrar el OCR, selecciona el PNG/JPG del tablero en el cargador de imágenes.
 
 ## Evaluación
 
