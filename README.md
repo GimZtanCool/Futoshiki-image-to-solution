@@ -6,13 +6,66 @@ This project reads a 4×4 or 5×5 Futoshiki puzzle image, extracts the givens an
 
 Python 3.11–3.13 is recommended (some scientific dependencies may not yet publish wheels for newer Python releases).
 
-```bash
+Installation has two parts: Python dependencies and the Tesseract OCR engine. `requirements.txt` includes `pytesseract`, the Python wrapper that calls Tesseract. It does **not** install the separate Tesseract executable or its language data. Both are needed to recognize digits from uploaded images. See the [pytesseract installation instructions](https://github.com/madmaze/pytesseract#installation) and [Tesseract installation guide](https://tesseract-ocr.github.io/tessdoc/Installation.html).
+
+### Windows (PowerShell)
+
+Run these commands from the repository root to install the Python dependencies:
+
+```powershell
 python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-For digit OCR, install the system binary `tesseract-ocr` as well. The app still works with the included JSON example when Tesseract is unavailable.
+Install Tesseract with Windows Package Manager:
+
+```powershell
+winget install --id UB-Mannheim.TesseractOCR --exact --source winget
+```
+
+Alternatively, download the Windows installer linked by the [official Tesseract installation guide](https://tesseract-ocr.github.io/tessdoc/Installation.html#windows). Include English language data (`eng`), which the current OCR code uses by default.
+
+Open a new PowerShell terminal and verify that the engine and its language data are available:
+
+```powershell
+tesseract --version
+tesseract --list-langs
+```
+
+If `tesseract` is not recognized, add its installation directory (normally `C:\Program Files\Tesseract-OCR`) to your user `Path` environment variable, then restart the terminal. You can also enable that directory for the current PowerShell session before launching the app:
+
+```powershell
+$env:Path = "C:\Program Files\Tesseract-OCR;$env:Path"
+tesseract --version
+```
+
+If you chose another installation directory, use that path instead.
+
+Launch the app with the same virtual environment:
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+### Linux / macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Install the OCR engine separately using the appropriate system package manager:
+
+```bash
+# Ubuntu / Debian
+sudo apt install tesseract-ocr tesseract-ocr-eng
+
+# macOS with Homebrew
+brew install tesseract
+```
+
+Verify the installation with `tesseract --version` and `tesseract --list-langs`. The bundled JSON example works without Tesseract, but uploading puzzle images requires the OCR engine.
 
 ## Run
 
