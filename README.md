@@ -56,4 +56,6 @@ Coordinates are zero-based. Every relation is semantic (`first < second` or `fir
 
 ## Dataset protocol
 
-Place an image and a same-named JSON ground-truth file in `data/dataset/`, for example `photo_01.jpg` and `photo_01.json`. Use `python scripts/evaluate_dataset.py data/dataset` to report grid-size, given-digit, inequality, exact-extraction, and end-to-end solve metrics. The delivery dataset should contain at least 10 images, including digital and lightly skewed phone photographs.
+Place an image and a same-named JSON ground-truth file in `data/dataset/`, for example `photo_01.jpg` and `photo_01.json`. Run `python -m scripts.evaluate_dataset data/dataset` from the repository root to report grid-size, given-digit, inequality, exact-extraction, and end-to-end solve metrics.
+
+The repository includes 10 image/JSON pairs covering 4×4 and 5×5 boards, digital inputs, simulated perspective, contrast and lighting changes, JPEG compression, and slight blur. See [`data/dataset/README.md`](data/dataset/README.md) for the inventory and validation details. These examples are synthetic and were adapted to the current extractor. Real photographs of printed boards still need to be added to cover the assignment's printed-image requirement and assess robustness on independent inputs.

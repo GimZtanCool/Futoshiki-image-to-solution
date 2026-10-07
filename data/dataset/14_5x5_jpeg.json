@@ -1,0 +1,142 @@
+{
+  "size": 5,
+  "givens": [
+    {
+      "row": 3,
+      "col": 4,
+      "value": 4
+    },
+    {
+      "row": 3,
+      "col": 1,
+      "value": 3
+    },
+    {
+      "row": 0,
+      "col": 2,
+      "value": 2
+    },
+    {
+      "row": 1,
+      "col": 2,
+      "value": 3
+    },
+    {
+      "row": 4,
+      "col": 0,
+      "value": 4
+    }
+  ],
+  "inequalities": [
+    {
+      "first": {
+        "row": 1,
+        "col": 3
+      },
+      "relation": "<",
+      "second": {
+        "row": 1,
+        "col": 4
+      }
+    },
+    {
+      "first": {
+        "row": 2,
+        "col": 3
+      },
+      "relation": "<",
+      "second": {
+        "row": 3,
+        "col": 3
+      }
+    },
+    {
+      "first": {
+        "row": 4,
+        "col": 2
+      },
+      "relation": "<",
+      "second": {
+        "row": 4,
+        "col": 3
+      }
+    },
+    {
+      "first": {
+        "row": 4,
+        "col": 3
+      },
+      "relation": ">",
+      "second": {
+        "row": 4,
+        "col": 4
+      }
+    },
+    {
+      "first": {
+        "row": 1,
+        "col": 0
+      },
+      "relation": ">",
+      "second": {
+        "row": 1,
+        "col": 1
+      }
+    },
+    {
+      "first": {
+        "row": 3,
+        "col": 0
+      },
+      "relation": "<",
+      "second": {
+        "row": 3,
+        "col": 1
+      }
+    },
+    {
+      "first": {
+        "row": 2,
+        "col": 0
+      },
+      "relation": "<",
+      "second": {
+        "row": 2,
+        "col": 1
+      }
+    },
+    {
+      "first": {
+        "row": 3,
+        "col": 4
+      },
+      "relation": ">",
+      "second": {
+        "row": 4,
+        "col": 4
+      }
+    },
+    {
+      "first": {
+        "row": 3,
+        "col": 2
+      },
+      "relation": ">",
+      "second": {
+        "row": 4,
+        "col": 2
+      }
+    },
+    {
+      "first": {
+        "row": 1,
+        "col": 1
+      },
+      "relation": "<",
+      "second": {
+        "row": 2,
+        "col": 1
+      }
+    }
+  ]
+}
